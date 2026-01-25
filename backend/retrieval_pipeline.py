@@ -58,7 +58,7 @@ class RetrievalPipelineConfig:
     qdrant_url: str
     qdrant_api_key: str
     openrouter_api_key: str
-    embedding_model: str = "openai/text-embedding-3-large"
+    embedding_model: str = "baai/bge-large-en-v1.5"
     chunks_path: str = "./chunks.json"
     semantic_weight: float = 0.7
     bm25_weight: float = 0.3
@@ -72,7 +72,7 @@ class OpenRouterEmbedder:
     Used to embed user queries for semantic search.
     """
     
-    def __init__(self, api_key: str, model: str = "openai/text-embedding-3-large"):
+    def __init__(self, api_key: str, model: str = "baai/bge-large-en-v1.5"):
         """
         Initialize the embedder.
         
