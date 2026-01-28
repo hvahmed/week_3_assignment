@@ -24,7 +24,7 @@ load_dotenv()
 COLLECTION_NAME = "siggraph2025_papers"
 CHUNKS_PATH = "./chunks.json"
 EMBEDDINGS_PATH = "./embeddings_BAAI_bge_large_en_v1.5.npz"
-VECTOR_SIZE = 1024  # Dimension for BAAI/bge-large-en-v1.5
+VECTOR_SIZE = 1024  # Dimension for BAAI/bge-large-en-v1.5g
 BATCH_SIZE = 100  # Can be larger since no API calls needed
 
 
@@ -53,7 +53,7 @@ def create_qdrant_collection(client: QdrantClient, collection_name: str, vector_
         if recreate:
             print(f"Deleting existing collection '{collection_name}'...")
             client.delete_collection(collection_name)
-            print("✓ Deleted")
+            print("[OK] Deleted")
         else:
             print(f"Collection '{collection_name}' already exists")
             info = client.get_collection(collection_name)
@@ -68,7 +68,7 @@ def create_qdrant_collection(client: QdrantClient, collection_name: str, vector_
             distance=models.Distance.COSINE
         )
     )
-    print(f"✓ Collection created with vector size {vector_size}")
+    print(f"[OK] Collection created with vector size {vector_size}")
 
 
 def upload_to_qdrant(
@@ -117,7 +117,7 @@ def upload_to_qdrant(
         client.upsert(collection_name=collection_name, points=points)
         uploaded_count += len(batch_chunks)
     
-    print(f"\n✓ Successfully uploaded {uploaded_count} chunks to Qdrant!")
+    print(f"\n[OK] Successfully uploaded {uploaded_count} chunks to Qdrant!")
 
 
 def verify_upload(client: QdrantClient, collection_name: str):
@@ -148,7 +148,7 @@ def main():
         raise ValueError("QDRANT_API_KEY not set in .env")
     
     print("=" * 60)
-    print("SIGGRAPH 2025 Papers → Qdrant Cloud Uploader")
+    print("SIGGRAPH 2025 Papers -> Qdrant Cloud Uploader")
     print("Using pre-computed BAAI/bge-large-en-v1.5 embeddings")
     print("=" * 60)
     print(f"Qdrant URL: {qdrant_url}")
@@ -159,7 +159,7 @@ def main():
     # Initialize Qdrant client
     print("\nConnecting to Qdrant Cloud...")
     client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key, timeout=120)
-    print("✓ Connected!")
+    print("[OK] Connected!")
     
     # Load data
     chunks = load_chunks(args.chunks)
